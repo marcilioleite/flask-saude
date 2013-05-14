@@ -1,7 +1,8 @@
-from flask import url_for, redirect, render_template, flash, g, session
+from flask import Flask, render_template
 from app import app
-from models import Agendamento
+from models import Item
 
 @app.route('/')
 def index():
-    return "Hello, World!"
+    item = Item.query.get(1)
+    return render_template('item.html', title = item.nome)
