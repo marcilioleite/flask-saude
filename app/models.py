@@ -1,5 +1,16 @@
 from app import db
 
+class Medico(db.Model):
+    __tablename__ = 'medicos'
+    
+    id              = db.Column(db.Integer, primary_key=True)
+    nome            = db.Column(db.String(255))
+    email           = db.Column(db.String(255), unique=True)
+    telefone        = db.Column(db.String(50))
+    celular         = db.Column(db.String(50))
+    agendamentos    = db.relationship('Agendamento', backref='medico')
+    consultas       = db.relationship('Consulta', backref='medico')
+    
 class Paciente(db.Model):
     __tablename__ = 'pacientes'
     
@@ -7,8 +18,8 @@ class Paciente(db.Model):
     nome            = db.Column(db.String(255))
     data_nascimento = db.Column(db.Date)
     sexo            = db.Column(db.String(1))
-    responsavel_id  = db.Column(db.Integer, db.ForeignKey('paciente.id'))
-    responsavel     = db.Relationship('Paciente', backref='responsavel')
+    responsavel_id  = db.Column(db.Integer, db.ForeignKey('pacientes.id'))
+    responsavel     = db.relationship('Paciente')
     email           = db.Column(db.String(255), unique=True)
     certidao        = db.Column(db.String(50), unique=True)
     rg              = db.Column(db.String(50), unique=True)
@@ -24,14 +35,15 @@ class Paciente(db.Model):
     estado          = db.Column(db.String(2))
     sus             = db.Column(db.String(50))
     tipo_sanguineo  = db.Column(db.String(2))
-    agendamentos    = db.Relationship('Consulta', backref='paciente')
-    consultas       = db.Relationship('Consulta', backref='paciente')
+    agendamentos    = db.relationship('Consulta')
+    consultas       = db.relationship('Consulta')
 
 class Agendamento(db.Model):
     __tablename__ = 'agendamentos'
     
     id          = db.Column('id', db.Integer, primary_key=True)
-    paciente_id = db.Column(db.Integer, db.ForeignKey('paciente.id'))
+    paciente_id = db.Column(db.Integer, db.ForeignKey('pacientes.id'))
+    medico_id   = db.Column(db.Integer, db.ForeignKey('medicos.id'))
     telefone    = db.Column(db.String(50))
     celular     = db.Column(db.String(50))
     sus         = db.Column(db.String(50))
@@ -43,7 +55,8 @@ class Consulta(db.Model):
     __tablename__ = 'consultas'
     
     id          = db.Column('id', db.Integer, primary_key=True)
-    paciente_id = db.Column(db.Integer, db.ForeignKey('paciente.id'))
+    paciente_id = db.Column(db.Integer, db.ForeignKey('pacientes.id'))
+    medico_id   = db.Column(db.Integer, db.ForeignKey('medicos.id'))
     data        = db.Column(db.Date)
     inicio      = db.Column(db.Time)
     fim         = db.Column(db.Time)

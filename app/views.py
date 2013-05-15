@@ -1,7 +1,8 @@
 from flask import Flask, render_template
 from app import app
-from models import Paciente, Consulta
+from models import Medico, Agendamento
 
 @app.route('/')
 def index():
-    return "Hello, world"
+    m = Medico.query.get(1)
+    return render_template('medico.html', medico=m)

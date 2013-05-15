@@ -7,7 +7,7 @@
 		Remove this if you use the .htaccess -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-		<title>{{ title }}</title>
+		<title>{{ medico.nome }}</title>
 		<meta name="description" content="" />
 		<meta name="author" content="Marcilio" />
 
@@ -20,7 +20,13 @@
 
 	<body>
 		<div>
-			{{ title }}
+			Nome do Médico: {{ medico.nome }}
+		</div>
+		<div>
+			Agendamentos:
+			{% for agendamento in medico.agendamentos: %}
+				{{ agendamento.data }}
+			{% endfor %}
 		</div>
 	</body>
 </html>
