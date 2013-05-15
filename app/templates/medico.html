@@ -1,12 +1,61 @@
 {% extends "base.html" %}
 {% block content %}
-	<div>
-		Nome do Médico: {{ medico.nome }}
-	</div>
+<script src="{{ url_for('static', filename='js/noty/jquery.noty.js') }}"></script>
+<script src="{{ url_for('static', filename='js/noty/promise.js') }}"></script>
+<script src="{{ url_for('static', filename='js/noty/layouts/bottomLeft.js') }}"></script>
+<script src="{{ url_for('static', filename='js/noty/themes/default.js') }}"></script>
+<script>
+	var noty = noty({
+		layout : 'bottomLeft',
+		text : 'Texto',
+		type : 'success'
+	}); 
+</script>
+
+<div class="container">
+	Nome do Médico: {{ medico.nome }}
+
+	<select class="selectpicker">
+		<option>Mustard</option>
+		<option>Ketchup</option>
+		<option>Barbecue</option>
+	</select>
+	<script src="{{ url_for('static', filename='js/bootstrap-select.min.js') }}"></script>
+	<script>
+		$(function() {
+			$('.selectpicker').selectpicker();
+		})
+	</script>
 	<div>
 		Agendamentos:
 		{% for agendamento in medico.agendamentos: %}
-			{{ agendamento.data }}
+		{{ agendamento.data }}
 		{% endfor %}
 	</div>
+
+	<div>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/datepicker.css') }}" />
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-timepicker.min.css') }}" />
+		<script src="{{ url_for('static', filename='js/bootstrap-datepicker.js')}}"></script>
+		<script src="{{ url_for('static', filename='js/locales/bootstrap-datepicker.pt-BR.js')}}"></script>
+		<script src="{{ url_for('static', filename='js/bootstrap-timepicker.min.js')}}"></script>
+		<input type="text" value="" class="datepicker">
+		<div class="bootstrap-timepicker">
+			<input type="text" value="" class="timepicker">
+		</div>
+		<script>
+			$('.datepicker').datepicker({
+			    format: 'dd-mm-yyyy',
+			    language: 'pt-BR'
+			});
+            $('.timepicker').timepicker({
+                minuteStep: 5,
+                template: 'dropdown',
+                showSeconds: false,
+                showMeridian: false,
+                defaultTime: '10:00'
+            });
+		</script>
+	</div>
+</div>
 {% endblock %}
